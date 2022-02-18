@@ -39,11 +39,10 @@ class InitProject extends Command
         $this->call('config:clear');
         $this->call('route:clear');
         $this->call('view:clear');
-        $this->call('migrate:fresh');
         $this->call('passport:install');
         $this->call('key:generate');
         $this->call('storage:link');
-
+        $this->call('migrate:fresh');
         $this->call('db:seed');
     }
 }
