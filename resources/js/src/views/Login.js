@@ -3,7 +3,7 @@ import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
 import Avatar from "@material-ui/core/Avatar";
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import IconButton from "@material-ui/core/IconButton";
 import {Visibility, VisibilityOff} from '@material-ui/icons';
@@ -15,10 +15,12 @@ import {addNotification} from "../store/notification/actions";
 import {TextField} from "../components/TextField";
 import Button from "../components/Button";
 import CheckBox from "../components/CheckBox";
-import {Link} from "react-router-dom";
+import {Link, useHistory} from "react-router-dom";
 import {mainColor, notificationTypes} from "../config";
+import Cookies from 'js-cookie';
 function Login() {
     const dispatch = useDispatch();
+    const history = useHistory();
     const schema = {
         email: {
             presence: {allowEmpty: false, message: 'is required'},
@@ -26,7 +28,6 @@ function Login() {
         },
         password: {
             presence: {allowEmpty: false, message: 'is required'},
-
             length: {
                 minimum: 8,
                 message: 'is required size minimum 8'
@@ -85,18 +86,26 @@ function Login() {
         }
         dispatch(login({...formState.values, remember: formState.remember})).then(({response}) => {
             if (response && response.data && response.data.user) {
-                const {user} = response.data;
-                history.push('/dashboard');
+                const {user_id} = response.data;
+                Cookies.set('auth_user_id', user_id);
+console.log("=======auth_user_id=======",Cookies.get('auth_user_id') );
+                dispatch(addNotification({
+                    message: 'Login Successfully',
+                    type: notificationTypes.SUCCESS,
+                }));
+                setTimeout(function () {
+                    history.push('/dashboard');
+                }, 3000);
+            } else {
+                dispatch(addNotification({
+                    message: 'Unauthorized',
+                    type: notificationTypes.ERROR,
+                }));
             }
-        }).catch((error) => {
-            dispatch(addNotification({
-                message: error.response ? error.response.data.message : 'Unauthorized',
-                type: notificationTypes.ERROR,
-            }));
-        });
+        })
     };
     return (
-        <Grid >
+        <Grid>
             <Grid align={'center'}>
                 <Paper style={{
                     padding: 30,
@@ -182,10 +191,6 @@ function Login() {
                             </Link>
                         </Button>
                     </Grid>
-
-
-
-
                 </Paper>
             </Grid>
         </Grid>

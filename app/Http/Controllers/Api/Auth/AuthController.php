@@ -8,7 +8,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 class AuthController extends Controller
 {
-
    public function login(Request $request)
    {
        $request->validate([
@@ -34,7 +33,8 @@ class AuthController extends Controller
        return response()->json([
            'access_token' => $tokenResult->accessToken,
            'expires_at' => Carbon::parse($tokenResult->token->expires_at)->toDateTimeString(),
-           'user' => $user
+           'user' => $user->get()->toArray(),
+           'user_id' => $user->id,
        ]);
    }
     public function signup(Request $request): JsonResponse

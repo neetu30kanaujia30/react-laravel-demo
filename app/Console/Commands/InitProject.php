@@ -39,7 +39,9 @@ class InitProject extends Command
         $this->call('config:clear');
         $this->call('route:clear');
         $this->call('view:clear');
-        $this->call('passport:install');
+        $this->call('migrate:fresh');
+        $this->call('passport:install',['--force']);
+        $this->call('php artisan passport:client',['--personal']);
         $this->call('key:generate');
         $this->call('storage:link');
         $this->call('migrate:fresh');
