@@ -1,0 +1,2 @@
+export const GET = 'NOTIFICATIONS_GET';
+export const MARK_AS_READ = 'NOTIFICATIONS_MARK_AS_READ';
