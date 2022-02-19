@@ -9,6 +9,7 @@ import notification from './notification/reducer';
 import notifications from './notifications/reducer';
 import users from './users/reducer';
 import profile from './profile/reducer';
+import posts from './posts/reducer';
 const initialState = {};
 const sagaMiddleware = createSagaMiddleware();
 const middlewares = [
@@ -21,7 +22,8 @@ const rootReducer = combineReducers({
     notification,
     notifications,
     users,
-    profile
+    profile,
+    posts
 });
 const store = createStore(rootReducer, initialState, composeWithDevTools(applyMiddleware(...middlewares)));
 sagaMiddleware.run(() => saga(store.dispatch, store.getState));

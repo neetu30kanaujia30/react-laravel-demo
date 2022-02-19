@@ -16,3 +16,11 @@ export const removeAvatar = (data) => ({
       data
   }
 });
+export const editProfile = (data) => ({
+    type: actionTypes.EDIT_PROFILE,
+    request: {
+        method: 'PUT',
+        url: `${baseUrl}/edit-profile`,
+        data
+    }
+});

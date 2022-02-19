@@ -1,21 +1,22 @@
 <?php
+
 namespace App\Http\Controllers\Api;
+
 use App\Http\Controllers\Controller;
 use App\User;
-use Carbon\Carbon;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Session;
+
 class UserController extends Controller
 {
     public function getUsers(Request $request)
     {
         return response()->json([
             'allusers' => User::all()->except((int)$request->id)->toArray(),
+            'whole_user' => User::all()->toArray(),
             'auth_user' => $request->id ? User::find((int)$request->id)->toArray() : null,
         ]);
     }
+
     public function saveAvatar(Request $request)
     {
         $request->validate([
@@ -30,30 +31,37 @@ class UserController extends Controller
         $user->save();
         return response()->json(compact('user'));
     }
+
     public function removeAvatar(Request $request)
     {
-     $user = User::find($request->id);
-        if(file_exists(public_path($user->profile_pic))){
+        $user = User::find($request->id);
+        if (file_exists(public_path($user->profile_pic))) {
             unlink(public_path($user->profile_pic));
-            User::where('id',$request->id)->update(['profile_pic'=>null]);
+            User::where('id', $request->id)->update(['profile_pic' => null]);
             return response()->json([
                 'status' => true,
-                'user'=>$user
+                'user' => $user
             ]);
-        }else{
+        } else {
             return response()->json([
                 'status' => false,
-                'msg'=>'File does not exists'
+                'msg' => 'File does not exists'
             ]);
         }
     }
-    public function getProfile(Request $request){
-        dd($request->all());
-        return response()->json([
-            'user_details' => $request->id ? User::find((int)$request->id)->toArray() : null,
-        ]);
+
+    public function getProfile(Request $request)
+    {
     }
-    public function editProfile(Request $request){
-        dd($request->all());
+
+    public function editProfile(Request $request)
+    {
+        $id = $request->id;
+
+        return response()->json(['status' => User::where('id', $id)->update([
+            'name' => $request->name,
+            'email' => $request->email,
+            'phone' => $request->phone,
+        ])]);
     }
 }

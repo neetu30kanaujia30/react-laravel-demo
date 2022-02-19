@@ -35,8 +35,6 @@ const SnackBar = props => {
     const classes = useStyles();
     const Icon = variantIcon[variant];
     const bgColor = variantColor[variant];
-    console.log('From SnackBar resources\\js\\src\\components\\SnackBar\\SnackBar.js');
-    console.log('Duration : ', autoHideDuration);
     return (
         <MaterialSnackbar
             anchorOrigin={{

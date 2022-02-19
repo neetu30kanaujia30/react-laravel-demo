@@ -1,3 +1,4 @@
 
 export const SAVE_AVATAR = 'PROFILE_SAVE_AVATAR';
 export const REMOVE_AVATAR = 'PROFILE_REMOVE_AVATAR';
+export const EDIT_PROFILE = 'EDIT_PROFILE';

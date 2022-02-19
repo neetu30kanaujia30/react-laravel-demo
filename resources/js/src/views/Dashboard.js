@@ -42,6 +42,15 @@ function Dashboard() {
                             </Grid>
                             <Grid item>
                               <Profile/>
+                                <Button
+                                    fullwidth={true}
+                                    style={{textDecoration: 'none'}}
+                                >
+                                    <Link to={'/posts'}>
+                                        Posts
+                                    </Link>
+                                </Button>
+
                             </Grid>
                         </Grid>
                         <Grid container justify={'center'} spacing={1} direction={'row'} alignItems={'center'}>

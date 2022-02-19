@@ -5,6 +5,7 @@ import Dashboard from "./views/Dashboard";
 import Register from "./views/Register";
 import Maps from "./views/Maps";
 import Test from "./views/test";
+import Posts from "./views/Posts";
 
 const ROUTES = [
     {path: "/",
@@ -22,7 +23,14 @@ const ROUTES = [
     {path: "/maps",
         exact: true,
         component:Maps
-    },    {path: "/test",
+    },
+    {path: "/posts",
+        exact: true,
+        component:Posts
+    },
+
+
+    {path: "/test",
         exact: true,
         component:Test
     },

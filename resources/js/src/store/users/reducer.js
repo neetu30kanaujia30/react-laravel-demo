@@ -5,6 +5,7 @@ const initialState = {
     loading: false,
     error: false,
     allusers: [],
+    whole_user: [],
     auth_user: [],
 
 };
@@ -18,7 +19,7 @@ const reducer = (state = initialState, action) => {
         // Success===============================================================
         //
              case success(actionTypes.GET_USERS):
-            return {...state, loading: false, allusers: data.allusers, auth_user: data.auth_user, error: null};
+            return {...state, loading: false, allusers: data.allusers, whole_user: data.whole_user, auth_user: data.auth_user, error: null};
         //
         // Errors===============================================================
         //

@@ -98,10 +98,6 @@ function SignUp() {
     const handleMouseDownPassword = event => {
         event.preventDefault();
     };
-    const handleRemember = event => {
-        event.preventDefault();
-        setFormState({...formState, remember: !formState.remember})
-    };
     const handleSubmit = event => {
         event.preventDefault();
         if (!formState.isValid) {
@@ -243,7 +239,6 @@ function SignUp() {
                     </Grid>
                     <Grid item>
                         <Button
-                            fullwidth={true}
                             fullwidth={true}
                             style={{textDecoration: 'none'}}
                         >
