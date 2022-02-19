@@ -3,24 +3,25 @@ import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
 import Avatar from "@material-ui/core/Avatar";
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
-import {useDispatch, useSelector} from "react-redux";
+import {useDispatch} from "react-redux";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import IconButton from "@material-ui/core/IconButton";
 import {Visibility, VisibilityOff} from '@material-ui/icons';
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Typography from "@material-ui/core/Typography";
 import validate from "validate.js";
-import {login} from "../store/auth/actions";
+import { login} from "../store/auth/actions";
 import {addNotification} from "../store/notification/actions";
 import {TextField} from "../components/TextField";
 import Button from "../components/Button";
 import CheckBox from "../components/CheckBox";
 import {Link, useHistory} from "react-router-dom";
 import {mainColor, notificationTypes} from "../config";
-import Cookies from 'js-cookie';
+import Cookies from 'universal-cookie';
 function Login() {
     const dispatch = useDispatch();
     const history = useHistory();
+    const cookies = new Cookies();
     const schema = {
         email: {
             presence: {allowEmpty: false, message: 'is required'},
@@ -42,6 +43,7 @@ function Login() {
         touched: {},
         errors: {}
     });
+
     useEffect(() => {
         const errors = validate(formState.values, schema);
         setFormState(formState => ({
@@ -85,14 +87,15 @@ function Login() {
             return;
         }
         dispatch(login({...formState.values, remember: formState.remember})).then(({response}) => {
-            if (response && response.data && response.data.user) {
+            if (response && response.data && response.data.user_id) {
                 const {user_id} = response.data;
-                Cookies.set('auth_user_id', user_id);
-console.log("=======auth_user_id=======",Cookies.get('auth_user_id') );
+                cookies.set('user_id',user_id, { path: '/' });
                 dispatch(addNotification({
                     message: 'Login Successfully',
                     type: notificationTypes.SUCCESS,
                 }));
+
+
                 setTimeout(function () {
                     history.push('/dashboard');
                 }, 3000);

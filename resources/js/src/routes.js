@@ -3,30 +3,28 @@ import {Route, Switch} from "react-router-dom";
 import Login from "./views/Login";
 import Dashboard from "./views/Dashboard";
 import Register from "./views/Register";
+import Maps from "./views/Maps";
+import Test from "./views/test";
+
 const ROUTES = [
     {path: "/",
         exact: true,
         component: Login
     },
     {path: "/dashboard",
-        allowed: ['admin'],
         exact: true,
         component: Dashboard
     },
     {path: "/register",
-        allowed: ['admin'],
         exact: true,
         component: Register
     },
-    {path: "/getUsers",
-        allowed: ['admin'],
+    {path: "/maps",
         exact: true,
-        component: () => <h1>User Table</h1>
-    },
-    {path: "/welcome",
-        allowed: ['users'],
+        component:Maps
+    },    {path: "/test",
         exact: true,
-        component: () => <h1>Welcome Users</h1>
+        component:Test
     },
     {
         component: () => <h1>Error 404</h1>,

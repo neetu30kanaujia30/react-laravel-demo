@@ -37,3 +37,13 @@ export const refreshUser = (userObj) => ({
         user: userObj
     }
 });
+export const checkSession = () => ({
+    type: actionTypes.CHECK,
+    request: {
+        method: 'GET',
+        url: `${baseUrl}/me`
+    }
+});
+export const withoutToken = () => ({
+    type: actionTypes.WITHOUT_TOKEN
+});

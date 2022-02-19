@@ -11,6 +11,7 @@
 |
 */
 
-Route::any('{all}',  function () {
-    return view('index');
-})->where('all', '.*');
+use App\Http\Controllers\IndexController;
+use Illuminate\Support\Facades\Route;
+
+Route::any('{all}', [IndexController::class,'__invoke'])->where('all', '.*');

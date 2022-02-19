@@ -23,28 +23,33 @@ const UploadAvatar = () => {
     const classes = useStyles();
     const dispatch = useDispatch();
     const fileInputRef = React.useRef(null);
-
     const {auth_user} = useSelector(state => state.users)
-    const user =auth_user;
-    const [avatar, setAvatar] = useState(user.avatar);
+    const [avatar, setAvatar] = useState(auth_user.profile_pic);
     useEffect(() => {
-        setAvatar((user.profile && user.profile.avatar && ('/' + user.profile.avatar)) || '');
-    }, [user]);
+        setAvatar(auth_user.profile_pic  || '');
+    }, [auth_user]);
     const avatarClickHandler = () => {
         fileInputRef.current.click();
     };
     const removeAvatarClickHandler = () => {
-        dispatch(removeAvatar()).then(({response}) => {
+        dispatch(removeAvatar({id : auth_user.id})).then(({response}) => {
             if (response && response.data && response.data.user) {
                 setAvatar(null);
                 const updatedData = {...user, ...response.data.user};
                 dispatch(refreshUser(updatedData));
             }
-        }).catch((error) => {
-            dispatch(addNotification({
-                message: error.response ? error.response.data.message : 'Network Error',
-                type: notificationTypes.ERROR,
-            }));
+            if (response.status){
+                dispatch(addNotification({
+                    message:  'Remove Successfully',
+                    type: notificationTypes.SUCCESS,
+                }));
+            }
+            else {
+                dispatch(addNotification({
+                    message:  'Network Error',
+                    type: notificationTypes.ERROR,
+                }));
+            }
         });
     };
     const handleAvatarUpload = (e) => {
@@ -54,7 +59,7 @@ const UploadAvatar = () => {
         formData.append('file', file);
         dispatch(saveAvatar(formData)).then(({response}) => {
             if (response && response.data && response.data.user) {
-                setAvatar(avatar);
+                setAvatar(response.data.user.profile_pic);
                 const updatedData = {...user, ...response.data.user};
                 dispatch(refreshUser(updatedData));
                 dispatch(addNotification({
@@ -62,12 +67,7 @@ const UploadAvatar = () => {
                     type: notificationTypes.SUCCESS,
                 }));
             }
-        }).catch((error) => {
-            dispatch(addNotification({
-                message: error.response ? error.response.data.message : 'Network Error',
-                type: notificationTypes.ERROR,
-            }));
-        });
+        })
     };
     const imgUploadError = (e) => {
         setAvatar(null);
@@ -98,7 +98,7 @@ const UploadAvatar = () => {
                 <Button
                     fullwidth
                     className={classes.removeButton}
-                    disabled={!avatar}
+                    disabled={!auth_user.profile_pic}
                     onClick={removeAvatarClickHandler}
                 >
                     Remove picture

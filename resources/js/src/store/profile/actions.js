@@ -8,10 +8,11 @@ export const saveAvatar = (data) => ({
     data
   }
 });
-export const removeAvatar = () => ({
+export const removeAvatar = (data) => ({
   type: actionTypes.REMOVE_AVATAR,
   request: {
     method: 'DELETE',
-    url: `${baseUrl}/remove-avatar`
+    url: `${baseUrl}/remove-avatar`,
+      data
   }
 });

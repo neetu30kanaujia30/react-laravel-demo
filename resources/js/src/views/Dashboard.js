@@ -13,13 +13,17 @@ import TableBody from "@material-ui/core/TableBody";
 import {getUsers} from "../store/users/actions";
 import Avatar from "@material-ui/core/Avatar";
 import Profile from "./Profile";
+import Cookies from 'universal-cookie';
+import {Link} from "react-router-dom";
 function Dashboard() {
     const title = 'Users';
     const dispatch = useDispatch();
+    const cookies = new Cookies();
     const {allusers} = useSelector(state => state.users)
     const {auth_user} = useSelector(state => state.users)
     useEffect(() => {
-        dispatch(getUsers());
+        dispatch(getUsers({id : cookies.get('user_id')}));
+
     }, []);
     useEffect(() => {
         console.log("-----",allusers,allusers.length);
@@ -61,12 +65,21 @@ function Dashboard() {
                                              <TableCell align="center">{user.id} </TableCell>
                                              <TableCell align="center">
                                                  <Grid  justify={'center'} alignItems={'center'}>
-                                                     <Avatar   lg={{ width: 60, height: 72 }} alt="" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR8PLUjUJlQ7GpIm4a4qWO4-DBlgYd5uBywvK3i-0Lw-5l7lz960yzOFvV1n92-yXOStYg&usqp=CAU" />
+                                                     <Avatar   lg={{ width: 60, height: 72 }} alt="" src={user.profile_pic}/>
                                                  </Grid>
                                              </TableCell>
                                              <TableCell align="center">{user.name}</TableCell>
                                              <TableCell align="center">{user.email}</TableCell>
                                              <TableCell align="center">{user.phone}</TableCell>
+                                             <TableCell align="center">
+                                                 <Button
+                                                     style={{textDecoration: 'none'}}
+                                                 >
+                                                     <Link to={'/maps'}>
+                                                         View Location
+                                                     </Link>
+                                                 </Button>
+                                             </TableCell>
                                              </TableRow>
                                          );
                                             })

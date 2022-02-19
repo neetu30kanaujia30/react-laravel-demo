@@ -16,19 +16,13 @@ import {Visibility, VisibilityOff} from "@material-ui/icons";
 import {register} from "../store/auth/actions";
 import {addNotification} from "../store/notification/actions";
 import {notificationTypes} from "../config";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 export default function AlertDialog() {
     const dispatch = useDispatch();
     const schema = {
         email: {
             presence: {allowEmpty: false, message: 'is required'},
             email: true
-        },
-        password: {
-            presence: {allowEmpty: false, message: 'is required'}
-        },
-        confirm_password: {
-            presence: {allowEmpty: false, message: 'is required'}
         },
         name: {
             presence: {allowEmpty: false, message: 'is required'}
@@ -52,12 +46,16 @@ export default function AlertDialog() {
     const handleClose = () => {
         setOpen(false);
     };
+    const {auth_user} = useSelector(state => state.users)
     const [formState, setFormState] = useState({
-        showPassword: false,
-        showConfirmPassword: false,
         isValid: false,
         remember: false,
-        values: {},
+        values: {
+
+
+
+
+        },
         touched: {},
         errors: {}
     });
@@ -86,15 +84,7 @@ export default function AlertDialog() {
             }
         }));
     };
-    const handleClickShowConfirmPassword = () => {
-        setFormState({...formState, showConfirmPassword: !formState.showConfirmPassword});
-    };
-    const handleClickShowPassword = () => {
-        setFormState({...formState, showPassword: !formState.showPassword});
-    };
-    const handleMouseDownPassword = event => {
-        event.preventDefault();
-    };
+
     const handleSubmit = event => {
         event.preventDefault();
         if (!formState.isValid) {
@@ -174,60 +164,6 @@ export default function AlertDialog() {
                                           type="text"
                                           onChange={handleChange}
                                           value={formState.values.phone || ''}/>
-                           </Grid>
-                           <Grid item>
-                               <TextField autoComplete="off"
-                                          error={hasError('password')}
-                                          placeholder="Password"
-                                          fullWidth
-                                          helperText={
-                                              hasError('password') ? formState.errors.password[0] : ' '
-                                          }
-                                          adornment={
-                                              <InputAdornment position="end">
-                                                  <IconButton
-                                                      style={{padding: 'none', height: 10, width: 10, marginRight: 2}}
-                                                      edge="end"
-                                                      aria-label="toggle password visibility"
-                                                      onClick={handleClickShowPassword}
-                                                      onMouseDown={handleMouseDownPassword}
-                                                  >
-                                                      {formState.showPassword ? <VisibilityOff/> : <Visibility/>}
-                                                  </IconButton>
-                                              </InputAdornment>
-                                          }
-                                          name="password"
-                                          onChange={handleChange}
-                                          type={formState.showPassword ? 'text' : 'password'}
-                                          value={formState.values.password || ''}
-                               />
-                           </Grid>
-                           <Grid item>
-                               <TextField autoComplete="off"
-                                          error={hasError('confirm_password')}
-                                          placeholder="Password"
-                                          fullWidth
-                                          helperText={
-                                              hasError('confirm_password') ? formState.errors.confirm_password[0] : ' '
-                                          }
-                                          adornment={
-                                              <InputAdornment position="end">
-                                                  <IconButton
-                                                      style={{padding: 'none', height: 10, width: 10, marginRight: 2}}
-                                                      edge="end"
-                                                      aria-label="toggle password visibility"
-                                                      onClick={handleClickShowConfirmPassword}
-                                                      onMouseDown={handleMouseDownPassword}
-                                                  >
-                                                      {formState.showConfirmPassword ? <VisibilityOff/> : <Visibility/>}
-                                                  </IconButton>
-                                              </InputAdornment>
-                                          }
-                                          name="confirm_password"
-                                          onChange={handleChange}
-                                          type={formState.showPassword ? 'text' : 'password'}
-                                          value={formState.values.confirm_password || ''}
-                               />
                            </Grid>
                         </Grid>
                     </DialogContentText>

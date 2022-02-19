@@ -30,4 +30,6 @@ Route::group(['prefix' => 'auth'], function () {
 Route::get('get-users', 'Api\UserController@getUsers');
 Route::post('/profile/save-avatar', 'Api\UserController@saveAvatar');
 Route::delete('/profile/remove-avatar', 'Api\UserController@removeAvatar');
+Route::post('/get-profile', 'Api\UserController@getProfile');
+Route::post('/edit-profile', 'Api\UserController@editProfile');
 

@@ -3,7 +3,6 @@
 use App\User;
 use Faker\Factory;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Hash;
 
 class UserSeeder extends Seeder
@@ -17,19 +16,17 @@ class UserSeeder extends Seeder
     {
         ini_set('max_execution_time', 0);   #runs forever
         $factory = Factory::create();
-        $data=2;
-        for($i=0;$i<$data;$i++){
-
-User::insert([
-    'name' =>$factory->name,
-    'email' =>$factory->email,
-    'phone' =>$factory->numerify('##########'),
-//    'profile_pic' =>$factory->profile_pic,
-    'password' =>Hash::make('admin'),
-//    'ip_address' =>$factory->ip_address,
-
-]);
-
+        $data = 5;
+        $public_img = ['1.jpg', '2.jpg', '3.jpg', '4.jpg', '5.jpg'];
+        for ($i = 0; $i < $data; $i++) {
+            User::insert([
+                'name' => $factory->name,
+                'email' => $factory->email,
+                'phone' => $factory->numerify('##########'),
+                'profile_pic' => '/profile-pic/' . $public_img[rand(0,4)],
+                'password' => Hash::make('admin'),
+            ]);
         }
+
     }
 }

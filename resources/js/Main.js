@@ -4,6 +4,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {removeLastNotification} from "./src/store/notification/actions";
 import SnackBar from "./src/components/SnackBar";
 
+
 function Main() {
     const dispatch = useDispatch();
     const notification = useSelector(state => state.notification);
